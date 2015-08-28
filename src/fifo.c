@@ -13,9 +13,9 @@ int main(int argc,char** argv)
 		perror("ptread_create error");
 		exit(1);
 	}
+		printf("waiting write......\n");
 	while(1)
 	{
-		printf("waiting write......\n");
 		fgets(test,BUFFER_SIZE + 1,stdin);
 //		printf("{len :%d}\n",strlen(test));
 		test[strlen(test)] = 0;
@@ -30,7 +30,7 @@ bool writeElem(elem_t* elem)
 {
 	int i = 0;
 	while(elem[i])
-		printf("[%d]\t",elem[i++]);
+		printf("[%c]\t",elem[i++]);
 	memset(elem,0,BUFFER_SIZE);
 	return TRUE;
 }
@@ -63,6 +63,7 @@ void *watchDog(void *arg)
 			printf("reading begin......\n");
 			writeElem(elem);
 			sem_post(&chg_sem);
+			printf("\nwaiting write......\n");
 		}
 		else
 		{
