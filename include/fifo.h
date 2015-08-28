@@ -1,31 +1,27 @@
 #ifndef _FIFO_H_
 #define _FIFO_H_
-
+#include <iostream>
 #include <stdio.h>
 #include <string.h>
 #include<pthread.h>
 #include<unistd.h>
 #include<stdlib.h>
 #include<semaphore.h>
-
-#ifndef bool
-#define bool	int
-#define TRUE	1
-#define FALSE	0
-#endif
-/*
-typedef sturct elem
-{
-	char member;
-	int	_size;
-
-}elem_t;
-*/
-typedef char elem_t;
 #define BUFFER_SIZE 10
-bool haveData(elem_t* elem);
-bool writeElem(elem_t* elem);
-//bool watchDog();
-
+using namespace std;
+class Pbuffer
+{
+	private:
+		const int _bufferMaxSize;	
+		char* member;
+		int	_size;
+	public:
+		Pbuffer();
+		~Pbuffer();
+		bool isEmpty();
+		bool isFull();
+		int  writeBuffer();		//write data to buffer if no full
+		int	 readBuffer();		//read data from buffer if have data
+};
 
 #endif

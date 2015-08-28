@@ -1,9 +1,9 @@
 DEBUG = gdb
-CC = gcc
+CC = g++
 CC_FLAG = -g -Wall -I
 INCLUDE = include
 LIB = pthread
-SRC = src/*.c
+SRC = src/*.cpp
 TARGET = bin/dealstr
 TEMPFILE = source/test.txt.tmp
 TESTFILE = source/test.txt
