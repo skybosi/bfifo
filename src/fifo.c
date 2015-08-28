@@ -1,12 +1,9 @@
 #include "fifo.h"
-//sem_t chg_sem;
-static _size = 0;
+sem_t chg_sem;
 void *watchDog(void *arg);
 int main(int argc,char** argv)
 {
-	int i = 0;
 	pthread_t pth;
-	elem_t one = 0;
 	elem_t test[BUFFER_SIZE] = { 0 };
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
@@ -18,15 +15,13 @@ int main(int argc,char** argv)
 	}
 	while(1)
 	{
-		printf("main the thread......\n");
-/*		one = getchar();
-		test[i++] = one;
-		if(i > BUFFER_SIZE)
-			break;*/
-//		memcpy(test,"testing!",10);
+		printf("waiting write......\n");
 		fgets(test,BUFFER_SIZE + 1,stdin);
-		test[strlen(test) - 1] = 0;
-		sleep(2);
+//		printf("{len :%d}\n",strlen(test));
+		test[strlen(test)] = 0;
+//		printf("{%c}\n",test[BUFFER_SIZE]);
+//		sleep(2);
+		sem_wait(&chg_sem);
 	}
 	return 0;
 }
@@ -35,8 +30,24 @@ bool writeElem(elem_t* elem)
 {
 	int i = 0;
 	while(elem[i])
-	printf("[%c]\t",elem[i++]);
+		printf("[%d]\t",elem[i++]);
 	memset(elem,0,BUFFER_SIZE);
+	return TRUE;
+}
+
+bool haveData(elem_t* elem)
+{
+	int i = 0;
+	while(elem[i] && i < BUFFER_SIZE + 1)
+	{
+		if(elem[i] != 0)
+		{
+//			printf("have data ......\n");
+			return TRUE;
+		}
+	}
+//	printf("not have data ......\n");
+	return FALSE;
 }
 
 void *watchDog(void *arg)
@@ -44,23 +55,19 @@ void *watchDog(void *arg)
 
 	while(1)
 	{
-		printf("chlid the thread......\n");
+//		printf("chlid the thread......\n");
 //		sem_post(&chg_sem);
 		elem_t* elem = (elem_t*)arg;
-		writeElem(elem);
-
-		/*
-		   int size  = (int)arg;
-		   printf("size: %d\n",size);
-		   if(size != _size)
-		   {
-		   _size =  size;
-		   writeElem();
-		   }
-		   else
-		   printf("haha\n");
-		 */
-//		sleep(2);
+		if(haveData(elem))
+		{
+			printf("reading begin......\n");
+			writeElem(elem);
+			sem_post(&chg_sem);
+		}
+		else
+		{
+//			sleep(1);
+		}
 	}
 }
 
