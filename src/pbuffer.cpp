@@ -1,54 +1,81 @@
 #include "fifo.h"
 //Pbuffer::_bufferMaxSize = 10;
-Pbuffer::Pbuffer():_bufferMaxSize(10),_size(0)
+Pbuffer::Pbuffer():_bufferMaxSize(5),_size(0)
 {
 	member = new char[_bufferMaxSize];
+	if(sem_init(&chg_sem, 0, 0) != 0)  
+	{  
+		perror("semaphore intitialization failed\n");  
+		exit(EXIT_FAILURE);  
+	} 
 }
 
 Pbuffer::~Pbuffer()
 {
 	if(member) delete []member; 
+	sem_destroy(&chg_sem); 
 }
 
 int Pbuffer::writeBuffer()
 {
 	if(!isFull())
 	{
-		cout << "please input data：";
-		cin >> member;
-		_size = strlen(member);
-		if(isFull())
-			cout << "\tis full...\n";
+		while(1)
+		{
+			member[_size] = cin.get();
+			_size++;
+			if(isFull()|| member[_size-1] == '\n')
+			{
+				break;
+			}
+		}
 	}
-	else
-		cout << "\tis full...\n";
+	else;
+		//cout << "\tis full...\n";
 	return _size;
 }
 int Pbuffer::readBuffer()
 {
-	int size = _size;
 	if(!isEmpty())
 	{
-		cout << "buffer have:" << member << endl;
-		_size = 0;
+		int i = 0;
+		cout << "before _size:" << _size << endl;
+		while(_size)
+		{
+			cout.put(member[i++]);
+			_size-- ;
+		}
+		cout << "\naftre _size:" << _size << endl;
+		return i;
+//		if(_size > _bufferMaxSize)
+//			readBuffer();
 	}
-	else;
+	else
+		return 0;
 		//cout << "\tis empty...\n";
-	return size;
 }
 
 bool Pbuffer::isEmpty()
 {
-	//return _size <= 0;
-	if( _size <= 0)
-		return true;
-	return false;
+	return _size <= 0;
 }
 
 bool Pbuffer::isFull()
 {
-	//return _bufferMaxSize >= _size;
-	if(_size > _bufferMaxSize)
-		return true;
-	return false;
+	return _bufferMaxSize < _size;
+}
+
+char* Pbuffer::getBuffer()
+{
+	return member;
+}
+
+void Pbuffer::wait_read()
+{
+	sem_wait(&chg_sem);
+}
+
+void Pbuffer::post_read()
+{
+	sem_post(&chg_sem);
 }
