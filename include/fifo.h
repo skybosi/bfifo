@@ -24,7 +24,7 @@ typedef sturct elem
 typedef char elem_t;
 #define BUFFER_SIZE 10
 bool haveData(elem_t* elem);
-bool writeElem(elem_t* elem);
+bool readElem(elem_t* elem);
 //bool watchDog();
 
 

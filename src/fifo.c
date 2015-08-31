@@ -1,8 +1,10 @@
 #include "fifo.h"
+#include <time.h>
 sem_t chg_sem;
 void *watchDog(void *arg);
 int main(int argc,char** argv)
 {
+	int t = 0;
 	pthread_t pth;
 	elem_t test[BUFFER_SIZE] = { 0 };
 	pthread_attr_t attr;
@@ -13,25 +15,65 @@ int main(int argc,char** argv)
 		perror("ptread_create error");
 		exit(1);
 	}
-		printf("waiting write......\n");
+	printf("waiting write......\n");
 	while(1)
 	{
-		fgets(test,BUFFER_SIZE + 1,stdin);
-//		printf("{len :%d}\n",strlen(test));
-		test[strlen(test)] = 0;
-//		printf("{%c}\n",test[BUFFER_SIZE]);
-//		sleep(2);
-		sem_wait(&chg_sem);
+
+		//fgets(test,BUFFER_SIZE + 1,stdin);
+		srand(time(NULL));  /*初始化随机数种子*/
+		t = rand()%3;
+		switch(t)
+		{
+			case 0:
+				strcpy(test,"0123456");
+				break;
+			case 1:
+				strcpy(test,"0123456789");
+				break;
+			case 2:
+				strcpy(test,"0123456789-=");
+				break;
+			default:
+				break;
+		}
+		printf("data: %s\n",test);
+		sem_post(&chg_sem);
+		sleep(3);
 	}
 	return 0;
 }
 
-bool writeElem(elem_t* elem)
+void *watchDog(void *arg)
+{
+	while(1)
+	{
+		//	printf("chlid the thread......\n");
+		sem_wait(&chg_sem);
+		elem_t* elem = (elem_t*)arg;
+		if(haveData(elem))
+		{
+			printf("buffer have data! read begin......\n");
+			if(readElem(elem))
+				memset(elem,0,BUFFER_SIZE);
+		}
+		else
+		{
+			printf("no data...\r");
+			sleep(1);
+		}
+	}
+}
+
+bool readElem(elem_t* elem)
 {
 	int i = 0;
-	while(elem[i])
-		printf("[%c]\t",elem[i++]);
-	memset(elem,0,BUFFER_SIZE);
+	while(elem[i]&& i < BUFFER_SIZE)
+	{
+//		printf("\033[1;32m[%c]\033[0m",elem[i++]);
+		printf("[%c] ",elem[i++]);
+//		elem[i-1]  = 0;
+	}
+	printf("\n\n");
 	return TRUE;
 }
 
@@ -42,33 +84,11 @@ bool haveData(elem_t* elem)
 	{
 		if(elem[i] != 0)
 		{
-//			printf("have data ......\n");
+			//	printf("have data ......\n");
 			return TRUE;
 		}
 	}
-//	printf("not have data ......\n");
+	//	printf("not have data ......\n");
 	return FALSE;
-}
-
-void *watchDog(void *arg)
-{
-
-	while(1)
-	{
-//		printf("chlid the thread......\n");
-//		sem_post(&chg_sem);
-		elem_t* elem = (elem_t*)arg;
-		if(haveData(elem))
-		{
-			printf("reading begin......\n");
-			writeElem(elem);
-			sem_post(&chg_sem);
-			printf("\nwaiting write......\n");
-		}
-		else
-		{
-//			sleep(1);
-		}
-	}
 }
 
