@@ -15,10 +15,10 @@ int main(int argc,char** argv)
 		perror("ptread_create error");
 		exit(1);
 	}
+	int   i = 3;
 	printf("waiting write......\n");
-	while(1)
+	while(i--)
 	{
-
 		//fgets(test,BUFFER_SIZE + 1,stdin);
 		srand(time(NULL));  /*初始化随机数种子*/
 		t = rand()%3;
@@ -69,9 +69,9 @@ bool readElem(elem_t* elem)
 	int i = 0;
 	while(elem[i]&& i < BUFFER_SIZE)
 	{
-//		printf("\033[1;32m[%c]\033[0m",elem[i++]);
+		//		printf("\033[1;32m[%c]\033[0m",elem[i++]);
 		printf("[%c] ",elem[i++]);
-//		elem[i-1]  = 0;
+		//		elem[i-1]  = 0;
 	}
 	printf("\n\n");
 	return TRUE;
