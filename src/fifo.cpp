@@ -15,17 +15,22 @@ int main(int argc,char** argv)
 	}
 	int i =0;
 	char test[37] = "abcdefghijklmnopqrstuvwxyz0123456789";
-	printf("waiting write......\n");
-	while(test[i])
+	while(1)
 	{
-		buff.writeBuffer(test[i++]);
-		buff.showBuffer();
-		cout << "(" << i << ")";
-		buff.post_read();
-		if(!(i % buff.size()))
-			sleep(2);
-		else
-			sleep(1);
+//		printf("waiting write......\n");
+		while(test[i])
+		{
+			buff.writeBuffer(test[i++]);
+			//		buff.showBuffer();
+			//	cout << "(" << i << ")";
+			//	buff.post_read();
+			/*		if(!(i % buff.size()))
+					sleep(2);
+					else
+					sleep(1);*/
+		}
+	//	usleep(1000);
+		i = 0;
 	}
 	return 0;
 }
@@ -35,8 +40,8 @@ void *watchDog(void *arg)
 	while(1)
 	{
 		Pbuffer* elem = (Pbuffer*)arg;
-		elem->wait_read();
-		cout << "\tchild thread read:\t";
+		//		elem->wait_read();
+		//cout << "\tchild thread read:\t";
 		elem->readBuffer();
 	}
 	return (void*)0;

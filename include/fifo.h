@@ -17,13 +17,15 @@ class Pbuffer
 		char* member;
 		int	_size;
 		sem_t chg_sem;
+		sem_t chg_read;
+		sem_t chg_write;
 	public:
 		Pbuffer();
 		~Pbuffer();
 		void showBuffer();
 		int size();
-		void wait_read();
-		void post_read();
+		void Pwait(sem_t* sem);
+		void Ppost(sem_t* sem);
 		bool isEmpty();
 		bool isFull();
 		int  writeBuffer();		//write data to buffer if no full
