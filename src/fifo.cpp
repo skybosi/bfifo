@@ -1,5 +1,5 @@
 #include "fifo.h"
-//sem_t chg_sem;
+
 void *watchDog(void *arg);
 int main(int argc,char** argv)
 {
@@ -13,14 +13,19 @@ int main(int argc,char** argv)
 		perror("ptread_create error");
 		exit(1);
 	}
-	printf("\nwaiting write......\n");
-	while(1)
+	int i =0;
+	char test[37] = "abcdefghijklmnopqrstuvwxyz0123456789";
+	printf("waiting write......\n");
+	while(test[i])
 	{
-		buff.writeBuffer();
-		if(!strcmp(buff.getBuffer(),"exit\n"))
-			break;
-	//	sleep(1);
+		buff.writeBuffer(test[i++]);
+		buff.showBuffer();
+		cout << "(" << i << ")";
 		buff.post_read();
+		if(!(i % buff.size()))
+			sleep(2);
+		else
+			sleep(1);
 	}
 	return 0;
 }
@@ -31,18 +36,8 @@ void *watchDog(void *arg)
 	{
 		Pbuffer* elem = (Pbuffer*)arg;
 		elem->wait_read();
-		printf("\nreading begin......\n");
-		if(!strcmp(elem->getBuffer(),"exit\n"))
-			break;
-		while(!elem->readBuffer());
-		printf("\nwaiting write......\n");
-	/*	int len = elem->readBuffer();
-		if(len)
-			printf("\nwaiting write......\n");
-		else
-		{
-			printf("\nreading begin......\n");
-		}*/
+		cout << "\tchild thread read:\t";
+		elem->readBuffer();
 	}
 	return (void*)0;
 }
