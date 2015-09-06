@@ -5,26 +5,26 @@ Pbuffer::Pbuffer():_bufferMaxSize(10), _size(0)
 	member = new char[_bufferMaxSize + 1];
 	member[_bufferMaxSize] = '\0';
 	cout << "new a array!" << endl;
-	if(sem_init(&chg_sem, 0, 0) != 0)  
-	{  
-		perror("semaphore intitialization failed\n");  
+	if(pthread_mutex_init(&mutex,NULL) != 0)
+	{
+		perror("mutex intitialization failed\n");  
 		exit(1);  
-	} 
+	}  
 	if(sem_init(&chg_read, 0, 0) != 0)  
 	{  
-		perror("semaphore intitialization failed\n");  
+		perror("semaphore chg_read intitialization failed\n");  
 		exit(1);  
 	} 
 	if(sem_init(&chg_write, 0, 0) != 0)  
 	{  
-		perror("semaphore intitialization failed\n");  
+		perror("semaphore chg_write intitialization failed\n");  
 		exit(1);  
 	} 
 }
 
 Pbuffer::~Pbuffer()
 {
-	sem_destroy(&chg_sem); 
+	pthread_mutex_destroy(&mutex);  
 	sem_destroy(&chg_read); 
 	sem_destroy(&chg_write); 
 	if(member)
@@ -50,15 +50,18 @@ int Pbuffer::writeBuffer(char ch)
 {
 	if(!isFull())
 	{
+		Pwait(&chg_write);
+		pthread_mutex_lock(&mutex); 
 		_size = (_size) % _bufferMaxSize;
 		member[_size++] = ch;
+		pthread_mutex_unlock(&mutex); 
 		Ppost(&chg_read);
-		Pwait(&chg_write);
 		return _size;
 	}
 	else
 	{
 		cout << "\tbuffer is full...\n";
+		Ppost(&chg_read);
 		Pwait(&chg_write);
 		return 0;
 	}
@@ -67,33 +70,28 @@ int Pbuffer::readBuffer()
 {
 	if(!isEmpty())
 	{
-	/*	cout << "[";
-		int i = 0;
-		while(i < _bufferMaxSize)
-		{
-			cout.put(member[i++]);
-			cout << " ";
-			//			_size-- ;
-		}
-		cout << "]";
-		cout << endl;*/
-		cout << _size;
-		//sleep(1);
 		Ppost(&chg_write);
+		pthread_mutex_lock(&mutex); 
+		/*cout << "["; int i = 0; while(i < _bufferMaxSize) { cout.put(member[i++]); cout << " "; //	_size-- ; } cout << "]"; cout << endl; */
+		cout.put(member[_size-1]);
+		//sleep(1);
+		pthread_mutex_unlock(&mutex); 
 		Pwait(&chg_read);
 		return _size;
 	}
 	else
 	{
-		//Ppost(&chg_write);
 		cout << "\tbuffer is empty...\n";
+		Ppost(&chg_write);
 		Pwait(&chg_read);
 		return 0;
 	}
 }
 void Pbuffer::showBuffer()
 {
+	pthread_mutex_lock(&mutex); 
 	cout << "_size : " << _size << "\twrite in data: " << member << endl;
+	pthread_mutex_unlock(&mutex); 
 }
 int Pbuffer::size()
 {
@@ -124,4 +122,4 @@ char* Pbuffer::getBuffer()
 {
 	return member;
 }
-
+//pbuffer.cpp

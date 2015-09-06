@@ -16,7 +16,8 @@ class Pbuffer
 		const int _bufferMaxSize;	
 		char* member;
 		int	_size;
-		sem_t chg_sem;
+	protected:
+		pthread_mutex_t mutex;
 		sem_t chg_read;
 		sem_t chg_write;
 	public:
