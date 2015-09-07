@@ -1,6 +1,6 @@
 #include "fifo.h"
 //Pbuffer::_bufferMaxSize = 10;
-Pbuffer::Pbuffer():_bufferMaxSize(10), _size(0)
+Pbuffer::Pbuffer():_bufferMaxSize(32), _size(0)
 {
 	member = new char[_bufferMaxSize + 1];
 	member[_bufferMaxSize] = '\0';
@@ -48,14 +48,16 @@ int Pbuffer::writeBuffer()
 }
 int Pbuffer::writeBuffer(char ch)
 {
+	//cout << "w:";
 	if(!isFull())
 	{
-		Pwait(&chg_write);
+		//cout << "haha\n";
 		pthread_mutex_lock(&mutex); 
 		_size = (_size) % _bufferMaxSize;
 		member[_size++] = ch;
 		pthread_mutex_unlock(&mutex); 
 		Ppost(&chg_read);
+		Pwait(&chg_write);
 		return _size;
 	}
 	else
@@ -68,15 +70,16 @@ int Pbuffer::writeBuffer(char ch)
 }
 int Pbuffer::readBuffer()
 {
+	//cout << "r:";
 	if(!isEmpty())
 	{
-		Ppost(&chg_write);
+		Pwait(&chg_read);
 		pthread_mutex_lock(&mutex); 
 		/*cout << "["; int i = 0; while(i < _bufferMaxSize) { cout.put(member[i++]); cout << " "; //	_size-- ; } cout << "]"; cout << endl; */
 		cout.put(member[_size-1]);
 		//sleep(1);
 		pthread_mutex_unlock(&mutex); 
-		Pwait(&chg_read);
+		Ppost(&chg_write);
 		return _size;
 	}
 	else
