@@ -8,14 +8,14 @@ BOLDGREEN	include/fifo.h	11;"	d
 CC	makefile	/^CC = g++$/;"	m
 CC_FLAG	makefile	/^CC_FLAG = -g -Wall -I$/;"	m
 DEBUG	makefile	/^DEBUG = gdb$/;"	m
+ERROR	include/fifo.h	12;"	d
 GREEN	include/fifo.h	10;"	d
 INCLUDE	makefile	/^INCLUDE = include$/;"	m
 LIB	makefile	/^LIB = pthread$/;"	m
+OK	include/fifo.h	13;"	d
 OUTFILE	makefile	/^OUTFILE = source\/result.txt$/;"	m
 Pbuffer	include/fifo.h	/^class Pbuffer$/;"	c
 Pbuffer	src/pbuffer.cpp	/^Pbuffer::Pbuffer():_bufferMaxSize(10), _size(0)$/;"	f	class:Pbuffer
-Ppost	src/pbuffer.cpp	/^void Pbuffer::Ppost(sem_t* sem)$/;"	f	class:Pbuffer
-Pwait	src/pbuffer.cpp	/^void Pbuffer::Pwait(sem_t* sem)$/;"	f	class:Pbuffer
 SRC	makefile	/^SRC = src\/*.cpp$/;"	m
 TARGET	makefile	/^TARGET = bin\/dealstr$/;"	m
 TEMPFILE	makefile	/^TEMPFILE = source\/test.txt.tmp$/;"	m
@@ -23,18 +23,16 @@ TESTFILE	makefile	/^TESTFILE = source\/test.txt$/;"	m
 _FIFO_H_	include/fifo.h	2;"	d
 _bufferMaxSize	include/fifo.h	/^		const int _bufferMaxSize;	$/;"	m	class:Pbuffer
 _size	include/fifo.h	/^		int	_size;$/;"	m	class:Pbuffer
-chg_read	include/fifo.h	/^		sem_t chg_read;$/;"	m	class:Pbuffer
-chg_write	include/fifo.h	/^		sem_t chg_write;$/;"	m	class:Pbuffer
 getBuffer	src/pbuffer.cpp	/^char* Pbuffer::getBuffer()$/;"	f	class:Pbuffer
 isEmpty	src/pbuffer.cpp	/^bool Pbuffer::isEmpty()$/;"	f	class:Pbuffer
 isFull	src/pbuffer.cpp	/^bool Pbuffer::isFull()$/;"	f	class:Pbuffer
 main	src/fifo.cpp	/^int main(int argc,char** argv)$/;"	f
 member	include/fifo.h	/^		char* member;$/;"	m	class:Pbuffer
-mutex	include/fifo.h	/^		pthread_mutex_t mutex;$/;"	m	class:Pbuffer
 readBuffer	src/pbuffer.cpp	/^int Pbuffer::readBuffer()$/;"	f	class:Pbuffer
-showBuffer	src/pbuffer.cpp	/^void Pbuffer::showBuffer()$/;"	f	class:Pbuffer
+read_lock	include/fifo.h	/^		int read_lock;$/;"	m	class:Pbuffer
 size	src/pbuffer.cpp	/^int Pbuffer::size()$/;"	f	class:Pbuffer
+symbol_buffer	include/fifo.h	/^		int symbol_buffer;$/;"	m	class:Pbuffer
 watchDog	src/fifo.cpp	/^void *watchDog(void *arg)$/;"	f
-writeBuffer	src/pbuffer.cpp	/^int Pbuffer::writeBuffer()$/;"	f	class:Pbuffer
 writeBuffer	src/pbuffer.cpp	/^int Pbuffer::writeBuffer(char ch)$/;"	f	class:Pbuffer
+write_lock	include/fifo.h	/^		int write_lock;$/;"	m	class:Pbuffer
 ~Pbuffer	src/pbuffer.cpp	/^Pbuffer::~Pbuffer()$/;"	f	class:Pbuffer
