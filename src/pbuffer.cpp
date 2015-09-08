@@ -1,6 +1,6 @@
 #include "fifo.h"
 //Pbuffer::_bufferMaxSize = 10;
-Pbuffer::Pbuffer():_bufferMaxSize(32), _size(0)
+Pbuffer::Pbuffer():_bufferMaxSize(10), _size(0)
 {
 	member = new char[_bufferMaxSize + 1];
 	member[_bufferMaxSize] = '\0';
@@ -48,44 +48,46 @@ int Pbuffer::writeBuffer()
 }
 int Pbuffer::writeBuffer(char ch)
 {
-	//cout << "w:";
 	if(!isFull())
 	{
-		//cout << "haha\n";
+		Ppost(&chg_write);
 		pthread_mutex_lock(&mutex); 
-		_size = (_size) % _bufferMaxSize;
 		member[_size++] = ch;
+		cout << member[_size-1] << " ";
 		pthread_mutex_unlock(&mutex); 
-		Ppost(&chg_read);
-		Pwait(&chg_write);
 		return _size;
 	}
 	else
 	{
-		cout << "\tbuffer is full...\n";
-		Ppost(&chg_read);
+		//cout << "\tbuffer is full...\n";
 		Pwait(&chg_write);
 		return 0;
 	}
 }
 int Pbuffer::readBuffer()
 {
-	//cout << "r:";
 	if(!isEmpty())
 	{
-		Pwait(&chg_read);
+		Ppost(&chg_read);
 		pthread_mutex_lock(&mutex); 
-		/*cout << "["; int i = 0; while(i < _bufferMaxSize) { cout.put(member[i++]); cout << " "; //	_size-- ; } cout << "]"; cout << endl; */
-		cout.put(member[_size-1]);
+		int i = 0; 
+		cout << "<<W | R>> [ ";
+		while(i < _size) 
+		{ 
+			cout.put(member[i++]); 
+			cout << " "; 
+		} 
+		cout << "]";
+		cout << endl; 
+		_size = 0 ; 
+		//cout.put(member[_size-1]);
 		//sleep(1);
 		pthread_mutex_unlock(&mutex); 
-		Ppost(&chg_write);
-		return _size;
+		return i;
 	}
 	else
 	{
-		cout << "\tbuffer is empty...\n";
-		Ppost(&chg_write);
+		//cout << "\tbuffer is empty...\n";
 		Pwait(&chg_read);
 		return 0;
 	}
@@ -103,7 +105,7 @@ int Pbuffer::size()
 
 void Pbuffer::Pwait(sem_t* sem)
 {
-	sem_wait(sem);
+	sem_trywait(sem);
 }
 
 void Pbuffer::Ppost(sem_t* sem)

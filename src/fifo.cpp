@@ -13,9 +13,10 @@ int main(int argc,char** argv)
 		exit(1);
 	}
 	int i = 0;
-	char test[12] = "0123456789\n";
+	char test[11] = "0123456789";
 	while(1)
 	{
+		//cout << "write in:" ;
 		while(test[i])
 		{
 			buff.writeBuffer(test[i++]);

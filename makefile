@@ -10,6 +10,7 @@ TESTFILE = source/test.txt
 OUTFILE = source/result.txt
 
 $(TARGET):$(SRC)
+	ctags -R
 	$(CC) $(CC_FLAG) $(INCLUDE) -l $(LIB) $(SRC) -o $(TARGET)
 
 clean:				
