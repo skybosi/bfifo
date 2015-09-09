@@ -4,15 +4,11 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-BOLDGREEN	include/fifo.h	11;"	d
 CC	makefile	/^CC = g++$/;"	m
 CC_FLAG	makefile	/^CC_FLAG = -g -Wall -I$/;"	m
 DEBUG	makefile	/^DEBUG = gdb$/;"	m
-ERROR	include/fifo.h	12;"	d
-GREEN	include/fifo.h	10;"	d
 INCLUDE	makefile	/^INCLUDE = include$/;"	m
 LIB	makefile	/^LIB = pthread$/;"	m
-OK	include/fifo.h	13;"	d
 OUTFILE	makefile	/^OUTFILE = source\/result.txt$/;"	m
 Pbuffer	include/fifo.h	/^class Pbuffer$/;"	c
 Pbuffer	src/pbuffer.cpp	/^Pbuffer::Pbuffer():_bufferMaxSize(10), _size(0)$/;"	f	class:Pbuffer
@@ -26,12 +22,18 @@ _size	include/fifo.h	/^		int	_size;$/;"	m	class:Pbuffer
 getBuffer	src/pbuffer.cpp	/^char* Pbuffer::getBuffer()$/;"	f	class:Pbuffer
 isEmpty	src/pbuffer.cpp	/^bool Pbuffer::isEmpty()$/;"	f	class:Pbuffer
 isFull	src/pbuffer.cpp	/^bool Pbuffer::isFull()$/;"	f	class:Pbuffer
+main	sig.c	/^void main()$/;"	f
 main	src/fifo.cpp	/^int main(int argc,char** argv)$/;"	f
 member	include/fifo.h	/^		char* member;$/;"	m	class:Pbuffer
 readBuffer	src/pbuffer.cpp	/^int Pbuffer::readBuffer()$/;"	f	class:Pbuffer
 read_lock	include/fifo.h	/^		int read_lock;$/;"	m	class:Pbuffer
+send_signal	src/pbuffer.cpp	/^bool Pbuffer::send_signal(pthread_t& pth)$/;"	f	class:Pbuffer
+set_signal	src/pbuffer.cpp	/^bool Pbuffer::set_signal()$/;"	f	class:Pbuffer
+sig_wait	src/pbuffer.cpp	/^int Pbuffer::sig_wait()$/;"	f	class:Pbuffer
 size	src/pbuffer.cpp	/^int Pbuffer::size()$/;"	f	class:Pbuffer
 symbol_buffer	include/fifo.h	/^		int symbol_buffer;$/;"	m	class:Pbuffer
+threadfunc1	sig.c	/^void *threadfunc1(void *pvoid)$/;"	f
+threadfunc2	sig.c	/^void *threadfunc2(void *pvoid)$/;"	f
 watchDog	src/fifo.cpp	/^void *watchDog(void *arg)$/;"	f
 writeBuffer	src/pbuffer.cpp	/^int Pbuffer::writeBuffer(char ch)$/;"	f	class:Pbuffer
 write_lock	include/fifo.h	/^		int write_lock;$/;"	m	class:Pbuffer

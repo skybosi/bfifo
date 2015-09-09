@@ -6,11 +6,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <semaphore.h>
-#define GREEN   "\033[32m"      /* Green */
-#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
-#define ERROR 0
-#define OK 1
+#include <signal.h>
 using namespace std;
 class Pbuffer
 {
@@ -20,6 +16,8 @@ class Pbuffer
 		int	_size;
 		int symbol_buffer;
 	protected:
+//		int signum;
+//		sigset_t sig;
 		int read_lock;
 		int write_lock;
 	public:
@@ -28,6 +26,10 @@ class Pbuffer
 		int size();
 		bool isEmpty();
 		bool isFull();
+//		int sig_wait(sigset_t& sig, int& signum);
+		int sig_wait();
+		bool set_signal();
+		bool send_signal(pthread_t& pth);
 		int  writeBuffer(char);
 		int	 readBuffer();		//read data from buffer if have data
 		char* getBuffer();

@@ -27,7 +27,6 @@ int Pbuffer::writeBuffer(char ch)
 			symbol_buffer++;
 			member[_size++] = ch;
 			cout << member[_size-1] << " ";
-		//	cout << "(W_size: "<<_size << ")" ;
 			symbol_buffer--;
 		}
 		return _size;
@@ -40,6 +39,8 @@ int Pbuffer::writeBuffer(char ch)
 }
 int Pbuffer::readBuffer()
 {
+
+	sig_wait();
 	if(!isEmpty())
 	{
 		int i = 0; 
@@ -52,20 +53,44 @@ int Pbuffer::readBuffer()
 				cout.put(member[i++]); 
 				cout << " "; 
 			} 
+			memset(member,0,_bufferMaxSize);
 			_size = 0 ; 
 			cout << "]";
 			cout << endl; 
 			symbol_buffer--;
-			//cout.put(member[_size-1]);
-			//usleep(100);
 		}
 		return i;
 	}
 	else
 	{
-	//	cout << "\tbuffer is empty...\n";
+		//cout << "\tbuffer is empty...\n";
 		return 0;
 	}
+}
+//int Pbuffer::sig_wait(sigset_t* sig, in*& signum)
+int Pbuffer::sig_wait()
+{
+	int signum;
+	sigset_t sig;
+	sigemptyset(&sig);
+	sigaddset(&sig,SIGUSR1);
+	pthread_sigmask(SIG_BLOCK,&sig,NULL);//设置该线程的信号屏蔽字为SIGUSR1
+	sigwait(&sig,&signum);//睡眠等待SIGUSR1信号的到来
+	return signum;
+}
+bool Pbuffer::set_signal()
+{
+	struct sigaction act;
+	act.sa_handler=SIG_IGN;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags=0;
+	sigaction(SIGUSR1,&act,0);//设置信号SIGUSR1的处理方式忽略
+	return true;
+}
+bool Pbuffer::send_signal(pthread_t& pth)
+{
+	 pthread_kill(pth,SIGUSR1);
+	 return true;
 }
 int Pbuffer::size()
 {
@@ -79,7 +104,7 @@ bool Pbuffer::isEmpty()
 
 bool Pbuffer::isFull()
 {
-	return _bufferMaxSize < _size;
+	return _bufferMaxSize <= _size;
 }
 
 char* Pbuffer::getBuffer()
