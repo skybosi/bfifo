@@ -17,13 +17,11 @@ int main(int argc,char** argv)
 	while(1)
 	{
 		//cout << "write in:" ;
-		buff.set_signal();
 		while(test[i])
 		{
 			buff.writeBuffer(test[i++]);
 			/*	buff.showBuffer(); cout << "(" << i << ")"; */
 		}
-		buff.send_signal(pth);
 		i = 0;
 	}
 	return 0;

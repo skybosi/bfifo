@@ -39,8 +39,6 @@ int Pbuffer::writeBuffer(char ch)
 }
 int Pbuffer::readBuffer()
 {
-
-	sig_wait();
 	if(!isEmpty())
 	{
 		int i = 0; 
@@ -64,33 +62,9 @@ int Pbuffer::readBuffer()
 	else
 	{
 		//cout << "\tbuffer is empty...\n";
+		usleep(100);
 		return 0;
 	}
-}
-//int Pbuffer::sig_wait(sigset_t* sig, in*& signum)
-int Pbuffer::sig_wait()
-{
-	int signum;
-	sigset_t sig;
-	sigemptyset(&sig);
-	sigaddset(&sig,SIGUSR1);
-	pthread_sigmask(SIG_BLOCK,&sig,NULL);//设置该线程的信号屏蔽字为SIGUSR1
-	sigwait(&sig,&signum);//睡眠等待SIGUSR1信号的到来
-	return signum;
-}
-bool Pbuffer::set_signal()
-{
-	struct sigaction act;
-	act.sa_handler=SIG_IGN;
-	sigemptyset(&act.sa_mask);
-	act.sa_flags=0;
-	sigaction(SIGUSR1,&act,0);//设置信号SIGUSR1的处理方式忽略
-	return true;
-}
-bool Pbuffer::send_signal(pthread_t& pth)
-{
-	 pthread_kill(pth,SIGUSR1);
-	 return true;
 }
 int Pbuffer::size()
 {
