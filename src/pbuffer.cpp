@@ -30,6 +30,7 @@ int Pbuffer::writeBuffer(char ch)
 			buffer_unlock(&symbol_buffer);
 		}
 	}
+	lock = 0;
 	return _size;
 }
 int Pbuffer::readBuffer()
@@ -41,7 +42,7 @@ int Pbuffer::readBuffer()
 		if(!isEmpty())
 		{
 			buffer_lock(&symbol_buffer);
-			cout << "<<W | R>> "<<" [ ";
+			cout << "<<W | R>>(tid:) " << tid <<" [ ";
 			while(_size > 0 && i < _size) 
 			{ 
 				cout.put(member[i++]); 
@@ -55,7 +56,12 @@ int Pbuffer::readBuffer()
 			usleep(1);
 		}
 	}
+	lock = 0;
 	return i;
+}
+pthread_t Pbuffer::getlock()
+{
+	return lock;
 }
 bool Pbuffer::setlock()
 {

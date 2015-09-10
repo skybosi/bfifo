@@ -14,11 +14,12 @@ class Pbuffer
 		char* member;
 		int	_size;
 		int symbol_buffer;
-		unsigned long int lock;
+		pthread_t lock;
 	public:
 		Pbuffer();
 		~Pbuffer();
 		int size();
+		pthread_t getlock();
 		int CompareAndExchange(int *ptr,int olddata, int newdata);
 		void buffer_lock(int* symbol);
 		void buffer_unlock(int* symbol);

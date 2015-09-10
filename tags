@@ -23,9 +23,10 @@ _size	include/fifo.h	/^		int	_size;$/;"	m	class:Pbuffer
 buffer_lock	src/pbuffer.cpp	/^void Pbuffer::buffer_lock(int* symbol) $/;"	f	class:Pbuffer
 buffer_unlock	src/pbuffer.cpp	/^void Pbuffer::buffer_unlock(int* symbol) $/;"	f	class:Pbuffer
 getBuffer	src/pbuffer.cpp	/^char* Pbuffer::getBuffer()$/;"	f	class:Pbuffer
+getlock	src/pbuffer.cpp	/^pthread_t Pbuffer::getlock()$/;"	f	class:Pbuffer
 isEmpty	src/pbuffer.cpp	/^bool Pbuffer::isEmpty()$/;"	f	class:Pbuffer
 isFull	src/pbuffer.cpp	/^bool Pbuffer::isFull()$/;"	f	class:Pbuffer
-lock	include/fifo.h	/^		unsigned long int lock;$/;"	m	class:Pbuffer
+lock	include/fifo.h	/^		pthread_t lock;$/;"	m	class:Pbuffer
 main	source/sig.c	/^void main()$/;"	f
 main	src/fifo.cpp	/^int main(int argc,char** argv)$/;"	f
 member	include/fifo.h	/^		char* member;$/;"	m	class:Pbuffer
@@ -36,5 +37,6 @@ symbol_buffer	include/fifo.h	/^		int symbol_buffer;$/;"	m	class:Pbuffer
 threadfunc1	source/sig.c	/^void *threadfunc1(void *pvoid)$/;"	f
 threadfunc2	source/sig.c	/^void *threadfunc2(void *pvoid)$/;"	f
 watchDog	src/fifo.cpp	/^void *watchDog(void *arg)$/;"	f
+watchDog1	src/fifo.cpp	/^void *watchDog1(void *arg)$/;"	f
 writeBuffer	src/pbuffer.cpp	/^int Pbuffer::writeBuffer(char ch)$/;"	f	class:Pbuffer
 ~Pbuffer	src/pbuffer.cpp	/^Pbuffer::~Pbuffer()$/;"	f	class:Pbuffer
