@@ -14,16 +14,18 @@ class Pbuffer
 		char* member;
 		int	_size;
 		int symbol_buffer;
-	protected:
-		int read_lock;
-		int write_lock;
+		unsigned long int lock;
 	public:
 		Pbuffer();
 		~Pbuffer();
 		int size();
+		int CompareAndExchange(int *ptr,int olddata, int newdata);
+		void buffer_lock(int* symbol);
+		void buffer_unlock(int* symbol);
 		bool isEmpty();
 		bool isFull();
 		int  writeBuffer(char);
+		bool setlock();
 		int	 readBuffer();		//read data from buffer if have data
 		char* getBuffer();
 };

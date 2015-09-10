@@ -2,8 +2,7 @@
 //Pbuffer::_bufferMaxSize = 10;
 Pbuffer::Pbuffer():_bufferMaxSize(10), _size(0)
 {
-	read_lock = 0;
-	write_lock = 0;
+	lock = 0;
 	symbol_buffer = 0;
 	member = new char[_bufferMaxSize];
 	cout << "new a array!" << endl;
@@ -20,33 +19,30 @@ Pbuffer::~Pbuffer()
 
 int Pbuffer::writeBuffer(char ch)
 {
-	if(!isFull())
+	pthread_t tid = pthread_self();
+	if(lock == tid)
 	{
-		if(!symbol_buffer)
+		if(!isFull())
 		{
-			symbol_buffer++;
+			buffer_lock(&symbol_buffer);
 			member[_size++] = ch;
 			cout << member[_size-1] << " ";
-			symbol_buffer--;
+			buffer_unlock(&symbol_buffer);
 		}
-		return _size;
 	}
-	else
-	{
-		//cout << "\tbuffer is full...\n";
-		return 0;
-	}
+	return _size;
 }
 int Pbuffer::readBuffer()
 {
-	if(!isEmpty())
+	pthread_t tid = pthread_self();
+	int i = 0; 
+	if(lock == tid)
 	{
-		int i = 0; 
-		if(!symbol_buffer)
+		if(!isEmpty())
 		{
-			symbol_buffer++;
-			cout << "<<W | R>>(_size:) "<< _size<<" [ ";
-			while(i < _size) 
+			buffer_lock(&symbol_buffer);
+			cout << "<<W | R>> "<<" [ ";
+			while(_size > 0 && i < _size) 
 			{ 
 				cout.put(member[i++]); 
 				cout << " "; 
@@ -55,17 +51,37 @@ int Pbuffer::readBuffer()
 			_size = 0 ; 
 			cout << "]";
 			cout << endl; 
-			symbol_buffer--;
+			buffer_unlock(&symbol_buffer);
+			usleep(1);
 		}
-		return i;
 	}
-	else
-	{
-		//cout << "\tbuffer is empty...\n";
-		usleep(100);
-		return 0;
-	}
+	return i;
 }
+bool Pbuffer::setlock()
+{
+	pthread_t tid = pthread_self();
+	lock = tid;
+	return true;
+}
+
+void Pbuffer::buffer_lock(int* symbol) 
+{
+	while(CompareAndExchange(symbol, 0, 1) == 1); 
+}
+
+void Pbuffer::buffer_unlock(int* symbol) 
+{
+	*symbol = 0;
+}
+
+int Pbuffer::CompareAndExchange(int *ptr, int olddata, int newdata)
+{
+	int actual = *ptr;
+	if (actual == olddata)
+		*ptr = newdata;
+	return actual;
+}
+
 int Pbuffer::size()
 {
 	return _bufferMaxSize;
