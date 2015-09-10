@@ -14,11 +14,11 @@ int main(int argc,char** argv)
 		perror("ptread_create error");
 		exit(1);
 	}
-	if(pthread_create(&pth1,&attr,watchDog1,(void *)&buff)!=0)		//创建一个线程
+/*	if(pthread_create(&pth1,&attr,watchDog1,(void *)&buff)!=0)		//创建一个线程
 	{
 		perror("ptread_create error");
 		exit(1);
-	}
+	}*/
 	int i = 0;
 	char test[11] = "0123456789";
 	while(1)
@@ -26,7 +26,6 @@ int main(int argc,char** argv)
 		//cout << "write in:" ;
 		while(test[i])
 		{
-			buff.setlock();
 			buff.writeBuffer(test[i++]);
 			//sleep(1);
 			/*	buff.showBuffer(); cout << "(" << i << ")"; */
@@ -43,28 +42,21 @@ void *watchDog(void *arg)
 	{
 		Pbuffer* elem = (Pbuffer*)arg;
 		//		cout << "\t0 thread read: ";
-		if(elem->getlock() == 0)
-		{
-			elem->setlock();
-		}
 		elem->readBuffer();
 		//sleep(1);
 	}
 	return (void*)0;
 }
+/*
 void *watchDog1(void *arg)
 {
 	while(1)
 	{
 		Pbuffer* elem = (Pbuffer*)arg;
 		//		cout << "\t1 thread read: ";
-		if(elem->getlock() == 0)
-		{
-			elem->setlock();
-		}
 		elem->readBuffer();
 		//sleep(1);
 	}
 	return (void*)0;
-}
+}*/
 //fifio.cpp

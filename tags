@@ -37,6 +37,5 @@ symbol_buffer	include/fifo.h	/^		int symbol_buffer;$/;"	m	class:Pbuffer
 threadfunc1	source/sig.c	/^void *threadfunc1(void *pvoid)$/;"	f
 threadfunc2	source/sig.c	/^void *threadfunc2(void *pvoid)$/;"	f
 watchDog	src/fifo.cpp	/^void *watchDog(void *arg)$/;"	f
-watchDog1	src/fifo.cpp	/^void *watchDog1(void *arg)$/;"	f
 writeBuffer	src/pbuffer.cpp	/^int Pbuffer::writeBuffer(char ch)$/;"	f	class:Pbuffer
 ~Pbuffer	src/pbuffer.cpp	/^Pbuffer::~Pbuffer()$/;"	f	class:Pbuffer

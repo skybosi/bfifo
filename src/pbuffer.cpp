@@ -19,44 +19,35 @@ Pbuffer::~Pbuffer()
 
 int Pbuffer::writeBuffer(char ch)
 {
-	pthread_t tid = pthread_self();
-	if(lock == tid)
+	buffer_lock(&symbol_buffer);
+	if(!isFull())
 	{
-		if(!isFull())
-		{
-			buffer_lock(&symbol_buffer);
-			member[_size++] = ch;
-			cout << member[_size-1] << " ";
-			buffer_unlock(&symbol_buffer);
-		}
+		member[_size++] = ch;
+		cout << member[_size-1] << " ";
 	}
-	lock = 0;
+	buffer_unlock(&symbol_buffer);
 	return _size;
 }
 int Pbuffer::readBuffer()
 {
-	pthread_t tid = pthread_self();
-	int i = 0; 
-	if(lock == tid)
+	buffer_lock(&symbol_buffer);
+	int i = 0;
+	if(!isEmpty())
 	{
-		if(!isEmpty())
-		{
-			buffer_lock(&symbol_buffer);
-			cout << "<<W | R>>(tid:) " << tid <<" [ ";
-			while(_size > 0 && i < _size) 
-			{ 
-				cout.put(member[i++]); 
-				cout << " "; 
-			} 
-			memset(member,0,_bufferMaxSize);
-			_size = 0 ; 
-			cout << "]";
-			cout << endl; 
-			buffer_unlock(&symbol_buffer);
-			usleep(1);
-		}
+		//cout << "<<W | R>>(tid:) " << tid <<" [ ";
+		cout << "<<W | R>> " <<" [ ";
+		while(_size > 0 && i < _size) 
+		{ 
+			cout.put(member[i++]); 
+			cout << " "; 
+		} 
+		memset(member,0,_bufferMaxSize);
+		_size = 0 ; 
+		cout << "]";
+		cout << endl; 
+		usleep(1);
 	}
-	lock = 0;
+	buffer_unlock(&symbol_buffer);
 	return i;
 }
 pthread_t Pbuffer::getlock()
