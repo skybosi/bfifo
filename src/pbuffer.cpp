@@ -1,5 +1,7 @@
 #include "fifo.h"
 //Pbuffer::_bufferMaxSize = 10;
+int Pbuffer::lock = 0;
+int Pbuffer::unlock = 1;
 Pbuffer::Pbuffer():_bufferMaxSize(10), _size(0)
 {
 
@@ -19,23 +21,23 @@ Pbuffer::~Pbuffer()
 
 int Pbuffer::writeBuffer(char ch)
 {
-	buffer_lock(&symbol_buffer);
+		while (!(__sync_bool_compare_and_swap (&symbol_buffer,lock, 1) ));
 	if(!isFull())
 	{
 		member[_size++] = ch;
-		cout << member[_size-1] << " ";
+//		cout << member[_size-1] << " ";
 	}
-	buffer_unlock(&symbol_buffer);
+		__sync_bool_compare_and_swap (&symbol_buffer, unlock, 0);
 	return _size;
 }
 int Pbuffer::readBuffer()
 {
-	buffer_lock(&symbol_buffer);
+		while (!(__sync_bool_compare_and_swap (&symbol_buffer,lock, 1) ));
 	int i = 0;
 	if(!isEmpty())
 	{
-//		cout << "<<W | R>>(tid:) " << tid <<" [ ";
-		cout << "<<W | R>> " <<" [ ";
+		//		cout << "<<W | R>>(tid:) " << tid <<" [ ";
+//		cout << "<<W | R>> " <<" [ ";
 		while(_size > 0 && i < _size) 
 		{ 
 			cout.put(member[i++]); 
@@ -43,30 +45,11 @@ int Pbuffer::readBuffer()
 		} 
 		memset(member,0,_bufferMaxSize);
 		_size = 0 ; 
-		cout << "]";
-		cout << endl; 
-		usleep(1);
+//		cout << "]";
+		//cout << endl; 
 	}
-	buffer_unlock(&symbol_buffer);
+		__sync_bool_compare_and_swap (&symbol_buffer, unlock, 0);
 	return i;
-}
-
-void Pbuffer::buffer_lock(int* symbol) 
-{
-	while(CompareAndExchange(symbol, 0, 1) == 1); 
-}
-
-void Pbuffer::buffer_unlock(int* symbol) 
-{
-	*symbol = 0;
-}
-
-int Pbuffer::CompareAndExchange(int *ptr, int olddata, int newdata)
-{
-	int actual = *ptr;
-	if (actual == olddata)
-		*ptr = newdata;
-	return actual;
 }
 
 int Pbuffer::size()

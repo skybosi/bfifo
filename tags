@@ -6,10 +6,8 @@
 !_TAG_PROGRAM_VERSION	5.8	//
 CC	makefile	/^CC = g++$/;"	m
 CC_FLAG	makefile	/^CC_FLAG = -std=c++0x -g -Wall -I$/;"	m
-CompareAndExchange	src/pbuffer.cpp	/^int Pbuffer::CompareAndExchange(int *ptr, int olddata, int newdata)$/;"	f	class:Pbuffer
 DEBUG	makefile	/^DEBUG = gdb$/;"	m
 INCLUDE	makefile	/^INCLUDE = include $/;"	m
-INC_TO	2.c	10;"	d	file:
 LIB	makefile	/^LIB = pthread$/;"	m
 OUTFILE	makefile	/^OUTFILE = source\/result.txt$/;"	m
 Pbuffer	include/fifo.h	/^class Pbuffer$/;"	c
@@ -21,26 +19,25 @@ TESTFILE	makefile	/^TESTFILE = source\/test.txt$/;"	m
 _FIFO_H_	include/fifo.h	2;"	d
 _bufferMaxSize	include/fifo.h	/^		const int _bufferMaxSize;	$/;"	m	class:Pbuffer
 _size	include/fifo.h	/^		int	_size;$/;"	m	class:Pbuffer
-buffer_lock	src/pbuffer.cpp	/^void Pbuffer::buffer_lock(int* symbol) $/;"	f	class:Pbuffer
-buffer_unlock	src/pbuffer.cpp	/^void Pbuffer::buffer_unlock(int* symbol) $/;"	f	class:Pbuffer
-count	1.c	/^static int count = 0;$/;"	v	file:
+count	source/_sync_fetch_add.c	/^static int count = 0;$/;"	v	file:
 getBuffer	src/pbuffer.cpp	/^char* Pbuffer::getBuffer()$/;"	f	class:Pbuffer
-gettid	2.c	/^pid_t gettid( void )$/;"	f
-global_int	2.c	/^int global_int = 0;$/;"	v
 isEmpty	src/pbuffer.cpp	/^bool Pbuffer::isEmpty()$/;"	f	class:Pbuffer
 isFull	src/pbuffer.cpp	/^bool Pbuffer::isFull()$/;"	f	class:Pbuffer
-main	1.c	/^int main(int argc, const char *argv[])$/;"	f
-main	2.c	/^int main()$/;"	f
+lock	include/fifo.h	/^		static int lock;$/;"	m	class:Pbuffer
+lock	src/pbuffer.cpp	/^int Pbuffer::lock = 0;$/;"	m	class:Pbuffer	file:
+main	source/_sync_fetch_add.c	/^int main(int argc, const char *argv[])$/;"	f
 main	source/sig.c	/^void main()$/;"	f
 main	src/fifo.cpp	/^int main(int argc,char** argv)$/;"	f
 member	include/fifo.h	/^		char* member;$/;"	m	class:Pbuffer
 readBuffer	src/pbuffer.cpp	/^int Pbuffer::readBuffer()$/;"	f	class:Pbuffer
 size	src/pbuffer.cpp	/^int Pbuffer::size()$/;"	f	class:Pbuffer
 symbol_buffer	include/fifo.h	/^		int symbol_buffer;$/;"	m	class:Pbuffer
-test_func	1.c	/^void *test_func(void *arg)$/;"	f
-thread_routine	2.c	/^void *thread_routine( void *arg )$/;"	f
+test_func	source/_sync_fetch_add.c	/^void *test_func(void *arg)$/;"	f
 threadfunc1	source/sig.c	/^void *threadfunc1(void *pvoid)$/;"	f
 threadfunc2	source/sig.c	/^void *threadfunc2(void *pvoid)$/;"	f
+unlock	include/fifo.h	/^		static int unlock;$/;"	m	class:Pbuffer
+unlock	src/pbuffer.cpp	/^int Pbuffer::unlock = 1;$/;"	m	class:Pbuffer	file:
 watchDog	src/fifo.cpp	/^void *watchDog(void *arg)$/;"	f
+watchDog1	src/fifo.cpp	/^void *watchDog1(void *arg)$/;"	f
 writeBuffer	src/pbuffer.cpp	/^int Pbuffer::writeBuffer(char ch)$/;"	f	class:Pbuffer
 ~Pbuffer	src/pbuffer.cpp	/^Pbuffer::~Pbuffer()$/;"	f	class:Pbuffer

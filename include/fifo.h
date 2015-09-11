@@ -18,9 +18,8 @@ class Pbuffer
 		int	_size;
 		int symbol_buffer;
 	protected:
-		int CompareAndExchange(int *ptr,int olddata, int newdata);
-		void buffer_lock(int* symbol);
-		void buffer_unlock(int* symbol);
+		static int lock;
+		static int unlock;
 	public:
 		Pbuffer();
 		~Pbuffer();
