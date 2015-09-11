@@ -6,27 +6,28 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
 using namespace std;
 class Pbuffer
 {
+
+//#define  ATOMIC_INIT(i) {(i)}
 	private:
 		const int _bufferMaxSize;	
 		char* member;
 		int	_size;
 		int symbol_buffer;
-		pthread_t lock;
+	protected:
+		int CompareAndExchange(int *ptr,int olddata, int newdata);
+		void buffer_lock(int* symbol);
+		void buffer_unlock(int* symbol);
 	public:
 		Pbuffer();
 		~Pbuffer();
 		int size();
-		pthread_t getlock();
-		int CompareAndExchange(int *ptr,int olddata, int newdata);
-		void buffer_lock(int* symbol);
-		void buffer_unlock(int* symbol);
 		bool isEmpty();
 		bool isFull();
 		int  writeBuffer(char);
-		bool setlock();
 		int	 readBuffer();		//read data from buffer if have data
 		char* getBuffer();
 };

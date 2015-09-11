@@ -5,7 +5,7 @@ int main(int argc,char** argv)
 {
 	Pbuffer buff;
 	pthread_t pth;
-	pthread_t pth1;
+//	pthread_t pth1;
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);//线程分离属性

@@ -2,7 +2,7 @@
 //Pbuffer::_bufferMaxSize = 10;
 Pbuffer::Pbuffer():_bufferMaxSize(10), _size(0)
 {
-	lock = 0;
+
 	symbol_buffer = 0;
 	member = new char[_bufferMaxSize];
 	cout << "new a array!" << endl;
@@ -34,7 +34,7 @@ int Pbuffer::readBuffer()
 	int i = 0;
 	if(!isEmpty())
 	{
-		//cout << "<<W | R>>(tid:) " << tid <<" [ ";
+//		cout << "<<W | R>>(tid:) " << tid <<" [ ";
 		cout << "<<W | R>> " <<" [ ";
 		while(_size > 0 && i < _size) 
 		{ 
@@ -49,16 +49,6 @@ int Pbuffer::readBuffer()
 	}
 	buffer_unlock(&symbol_buffer);
 	return i;
-}
-pthread_t Pbuffer::getlock()
-{
-	return lock;
-}
-bool Pbuffer::setlock()
-{
-	pthread_t tid = pthread_self();
-	lock = tid;
-	return true;
 }
 
 void Pbuffer::buffer_lock(int* symbol) 

@@ -1,7 +1,7 @@
 DEBUG = gdb
 CC = g++
-CC_FLAG = -g -Wall -I
-INCLUDE = include
+CC_FLAG = -std=c++0x -g -Wall -I
+INCLUDE = include 
 LIB = pthread
 SRC = src/*.cpp
 TARGET = bin/dealstr
