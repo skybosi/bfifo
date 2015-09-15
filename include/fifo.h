@@ -12,22 +12,21 @@ class Pbuffer
 {
 //#define  ATOMIC_INIT(i) {(i)}
 	private:
-		const int _bufferMaxSize;	
-		char* member;
-		int	_size;
-		int symbol_buffer;
+		const int _bufferMaxSize;	//buffer的最大容量（字节）
+		char* member;				//buffer的地址
+		int	_size;					//已写入的数据个数
+		int symbol_buffer;			//用于同步的标志
 	protected:
-		static int lock;
+		static int lock;			
 		static int unlock;
 	public:
 		Pbuffer();
 		~Pbuffer();
 		int size();
-		bool isEmpty();
-		bool isFull();
-		int  writeBuffer(char);
-		int	 readBuffer();		//read data from buffer if have data
-		char* getBuffer();
+		bool isEmpty();				//判空
+		bool isFull();				//判满
+		int  writeBuffer(char);		//写入数据
+		int	 readBuffer();			//read data from buffer if have data
 };
 
 #endif

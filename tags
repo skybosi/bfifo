@@ -17,21 +17,20 @@ TARGET	makefile	/^TARGET = bin\/dealstr$/;"	m
 TEMPFILE	makefile	/^TEMPFILE = source\/test.txt.tmp$/;"	m
 TESTFILE	makefile	/^TESTFILE = source\/test.txt$/;"	m
 _FIFO_H_	include/fifo.h	2;"	d
-_bufferMaxSize	include/fifo.h	/^		const int _bufferMaxSize;	$/;"	m	class:Pbuffer
-_size	include/fifo.h	/^		int	_size;$/;"	m	class:Pbuffer
+_bufferMaxSize	include/fifo.h	/^		const int _bufferMaxSize;	\/\/buffer的最大容量（字节）$/;"	m	class:Pbuffer
+_size	include/fifo.h	/^		int	_size;					\/\/已写入的数据个数$/;"	m	class:Pbuffer
 count	source/_sync_fetch_add.c	/^static int count = 0;$/;"	v	file:
-getBuffer	src/pbuffer.cpp	/^char* Pbuffer::getBuffer()$/;"	f	class:Pbuffer
 isEmpty	src/pbuffer.cpp	/^bool Pbuffer::isEmpty()$/;"	f	class:Pbuffer
 isFull	src/pbuffer.cpp	/^bool Pbuffer::isFull()$/;"	f	class:Pbuffer
-lock	include/fifo.h	/^		static int lock;$/;"	m	class:Pbuffer
+lock	include/fifo.h	/^		static int lock;			$/;"	m	class:Pbuffer
 lock	src/pbuffer.cpp	/^int Pbuffer::lock = 0;$/;"	m	class:Pbuffer	file:
 main	source/_sync_fetch_add.c	/^int main(int argc, const char *argv[])$/;"	f
 main	source/sig.c	/^void main()$/;"	f
 main	src/fifo.cpp	/^int main(int argc,char** argv)$/;"	f
-member	include/fifo.h	/^		char* member;$/;"	m	class:Pbuffer
+member	include/fifo.h	/^		char* member;				\/\/buffer的地址$/;"	m	class:Pbuffer
 readBuffer	src/pbuffer.cpp	/^int Pbuffer::readBuffer()$/;"	f	class:Pbuffer
 size	src/pbuffer.cpp	/^int Pbuffer::size()$/;"	f	class:Pbuffer
-symbol_buffer	include/fifo.h	/^		int symbol_buffer;$/;"	m	class:Pbuffer
+symbol_buffer	include/fifo.h	/^		int symbol_buffer;			\/\/用于同步的标志$/;"	m	class:Pbuffer
 test_func	source/_sync_fetch_add.c	/^void *test_func(void *arg)$/;"	f
 threadfunc1	source/sig.c	/^void *threadfunc1(void *pvoid)$/;"	f
 threadfunc2	source/sig.c	/^void *threadfunc2(void *pvoid)$/;"	f
