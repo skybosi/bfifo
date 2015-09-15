@@ -1,15 +1,16 @@
 DEBUG = gdb
-CC = gcc
-CC_FLAG = -g -Wall -I
-INCLUDE = include
+CC = g++
+CC_FLAG = -std=c++0x -g -Wall -I
+INCLUDE = include 
 LIB = pthread
-SRC = src/*.c
+SRC = src/*.cpp
 TARGET = bin/dealstr
 TEMPFILE = source/test.txt.tmp
 TESTFILE = source/test.txt
 OUTFILE = source/result.txt
 
 $(TARGET):$(SRC)
+	ctags -R
 	$(CC) $(CC_FLAG) $(INCLUDE) -l $(LIB) $(SRC) -o $(TARGET)
 
 clean:				
@@ -17,7 +18,7 @@ clean:
 
 test:
 #@./$(TARGET) $(TESTFILE) $(OUTFILE)
-	@./$(TARGET)
+	@./$(TARGET) 10
 debug:
 	@$(DEBUG) ./$(TARGET) $(TESTFILE) $(OUTFILE)
 
