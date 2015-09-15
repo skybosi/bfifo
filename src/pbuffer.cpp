@@ -21,18 +21,18 @@ Pbuffer::~Pbuffer()
 
 int Pbuffer::writeBuffer(char ch)
 {
-		while (!(__sync_bool_compare_and_swap (&symbol_buffer,lock, 1) ));
+	while (!(__sync_bool_compare_and_swap (&symbol_buffer,lock, 1) ));
 	if(!isFull())
 	{
 		member[_size++] = ch;
 //		cout << member[_size-1] << " ";
 	}
-		__sync_bool_compare_and_swap (&symbol_buffer, unlock, 0);
+	__sync_bool_compare_and_swap (&symbol_buffer, unlock, 0);
 	return _size;
 }
 int Pbuffer::readBuffer()
 {
-		while (!(__sync_bool_compare_and_swap (&symbol_buffer,lock, 1) ));
+	while (!(__sync_bool_compare_and_swap (&symbol_buffer,lock, 1) ));
 	int i = 0;
 	if(!isEmpty())
 	{
@@ -48,7 +48,7 @@ int Pbuffer::readBuffer()
 //		cout << "]";
 		//cout << endl; 
 	}
-		__sync_bool_compare_and_swap (&symbol_buffer, unlock, 0);
+	__sync_bool_compare_and_swap (&symbol_buffer, unlock, 0);
 	return i;
 }
 

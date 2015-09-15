@@ -38,6 +38,5 @@ threadfunc2	source/sig.c	/^void *threadfunc2(void *pvoid)$/;"	f
 unlock	include/fifo.h	/^		static int unlock;$/;"	m	class:Pbuffer
 unlock	src/pbuffer.cpp	/^int Pbuffer::unlock = 1;$/;"	m	class:Pbuffer	file:
 watchDog	src/fifo.cpp	/^void *watchDog(void *arg)$/;"	f
-watchDog1	src/fifo.cpp	/^void *watchDog1(void *arg)$/;"	f
 writeBuffer	src/pbuffer.cpp	/^int Pbuffer::writeBuffer(char ch)$/;"	f	class:Pbuffer
 ~Pbuffer	src/pbuffer.cpp	/^Pbuffer::~Pbuffer()$/;"	f	class:Pbuffer

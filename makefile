@@ -18,7 +18,7 @@ clean:
 
 test:
 #@./$(TARGET) $(TESTFILE) $(OUTFILE)
-	@./$(TARGET)
+	@./$(TARGET) 10
 debug:
 	@$(DEBUG) ./$(TARGET) $(TESTFILE) $(OUTFILE)
 
