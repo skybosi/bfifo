@@ -4,7 +4,6 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-BUFFER_SIZE	include/fifo.h	20;"	d
 CC	makefile	/^CC = g++$/;"	m
 CC_FLAG	makefile	/^CC_FLAG = -std=c++0x -g -Wall -I$/;"	m
 DEBUG	makefile	/^DEBUG = gdb$/;"	m
@@ -20,21 +19,17 @@ TESTFILE	makefile	/^TESTFILE = source\/test.txt$/;"	m
 _FIFO_H_	include/fifo.h	2;"	d
 _bufferMaxSize	include/fifo.h	/^		const int _bufferMaxSize;	$/;"	m	class:Pbuffer
 _size	include/fifo.h	/^		int	_size;$/;"	m	class:Pbuffer
-chg_sem	src/fifo.c	/^sem_t chg_sem;$/;"	v
 count	source/_sync_fetch_add.c	/^static int count = 0;$/;"	v	file:
 getBuffer	src/pbuffer.cpp	/^char* Pbuffer::getBuffer()$/;"	f	class:Pbuffer
-haveData	src/fifo.c	/^bool haveData(elem_t* elem)$/;"	f
 isEmpty	src/pbuffer.cpp	/^bool Pbuffer::isEmpty()$/;"	f	class:Pbuffer
 isFull	src/pbuffer.cpp	/^bool Pbuffer::isFull()$/;"	f	class:Pbuffer
 lock	include/fifo.h	/^		static int lock;$/;"	m	class:Pbuffer
 lock	src/pbuffer.cpp	/^int Pbuffer::lock = 0;$/;"	m	class:Pbuffer	file:
 main	source/_sync_fetch_add.c	/^int main(int argc, const char *argv[])$/;"	f
 main	source/sig.c	/^void main()$/;"	f
-main	src/fifo.c	/^int main(int argc,char** argv)$/;"	f
 main	src/fifo.cpp	/^int main(int argc,char** argv)$/;"	f
 member	include/fifo.h	/^		char* member;$/;"	m	class:Pbuffer
 readBuffer	src/pbuffer.cpp	/^int Pbuffer::readBuffer()$/;"	f	class:Pbuffer
-readElem	src/fifo.c	/^bool readElem(elem_t* elem)$/;"	f
 size	src/pbuffer.cpp	/^int Pbuffer::size()$/;"	f	class:Pbuffer
 symbol_buffer	include/fifo.h	/^		int symbol_buffer;$/;"	m	class:Pbuffer
 test_func	source/_sync_fetch_add.c	/^void *test_func(void *arg)$/;"	f
@@ -42,7 +37,6 @@ threadfunc1	source/sig.c	/^void *threadfunc1(void *pvoid)$/;"	f
 threadfunc2	source/sig.c	/^void *threadfunc2(void *pvoid)$/;"	f
 unlock	include/fifo.h	/^		static int unlock;$/;"	m	class:Pbuffer
 unlock	src/pbuffer.cpp	/^int Pbuffer::unlock = 1;$/;"	m	class:Pbuffer	file:
-watchDog	src/fifo.c	/^void *watchDog(void *arg)$/;"	f
 watchDog	src/fifo.cpp	/^void *watchDog(void *arg)$/;"	f
 writeBuffer	src/pbuffer.cpp	/^int Pbuffer::writeBuffer(char ch)$/;"	f	class:Pbuffer
 ~Pbuffer	src/pbuffer.cpp	/^Pbuffer::~Pbuffer()$/;"	f	class:Pbuffer

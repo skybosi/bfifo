@@ -10,20 +10,6 @@
 using namespace std;
 class Pbuffer
 {
-<<<<<<< HEAD
-	char member;
-	int	_size;
-
-}elem_t;
-*/
-typedef char elem_t;
-#define BUFFER_SIZE 10
-bool haveData(elem_t* elem);
-bool readElem(elem_t* elem);
-//bool watchDog();
-=======
->>>>>>> Bfifo_sync
-
 //#define  ATOMIC_INIT(i) {(i)}
 	private:
 		const int _bufferMaxSize;	

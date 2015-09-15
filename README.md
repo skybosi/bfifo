@@ -1,6 +1,2 @@
-<<<<<<< HEAD
-#fifo
-=======
 # bfifo
-buffer like fifo
->>>>>>> 680afdb7a28a6cd2f37c7f0c52625eac05e3f075
+# 这是一个用buffer模拟管道的功能，实现数据的先写先读的功能
